@@ -12,19 +12,29 @@ import frappe
 from frappe import _
 
 
+from frappe.utils.password import get_decrypted_password
+
 def _get_razorpay_credentials():
     """Get Razorpay key and secret from Hotel Booking Settings or site config."""
+    
     try:
         key = frappe.db.get_single_value("Hotel Booking Settings", "api_key")
-        secret = frappe.db.get_single_value("Hotel Booking Settings", "api_secret")
+
+        secret = get_decrypted_password(
+            "Hotel Booking Settings",
+            "Hotel Booking Settings",
+            "api_secret"
+        )
+        
+        # frappe.log_error(f"Decrypted secret: {secret}", "Razorpay")
+
     except Exception:
         key = secret = None
+
     key = key or frappe.conf.get("razorpay_api_key")
     secret = secret or frappe.conf.get("razorpay_api_secret")
-    
-    return key, secret
 
-@frappe.whitelist(allow_guest=True)
+    return key, secret
 
 def create_payment_order(booking_id: str) -> dict:
     """
