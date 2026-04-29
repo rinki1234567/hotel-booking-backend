@@ -58,11 +58,18 @@ website_route_rules = [
 
 
 fixtures = [
+    # {
+    #     "doctype": "Custom Field",
+    #     "filters": [
+    #         ["dt", "=", "Contact"],
+    #         ["fieldname", "=", "custom_notes"]
+    #     ]
+    # }
     {
         "doctype": "Custom Field",
         "filters": [
-            ["dt", "=", "Contact"],
-            ["fieldname", "=", "custom_notes"]
+            ["dt", "in", ["Room"]]
         ]
     }
+    
 ]
