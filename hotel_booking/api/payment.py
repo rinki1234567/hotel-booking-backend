@@ -36,6 +36,7 @@ def _get_razorpay_credentials():
 
     return key, secret
 
+@frappe.whitelist(allow_guest=True)
 def create_payment_order(booking_id: str) -> dict:
     """
     Create Razorpay order for booking payment.
